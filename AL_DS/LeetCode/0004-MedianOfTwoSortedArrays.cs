@@ -1,43 +1,40 @@
 ﻿namespace AL_DS.LeetCode
 {
-    public class _0004_MedianOfTwoSortedArrays
+    public static class _0004_MedianOfTwoSortedArrays
     {
         public static double FindMedianSortedArrays(int[] nums1, int[] nums2)
         {
-            int index1 = 0;
-            int index2 = 0;
-            int med1 = 0;
-            int med2 = 0;
-            for (int i = 0; i <= (nums1.Length + nums2.Length) / 2; i++)
+            int[] newArray = new int[nums1.Length + nums2.Length];
+            int m = 0;
+            int n = 0;
+            int i = 0;
+            while (m < nums1.Length && n < nums2.Length)
             {
-                med1 = med2;
-                if (index1 == nums1.Length)
-                {
-                    med2 = nums2[index2];
-                    index2++;
-                }
-                else if (index2 == nums2.Length)
-                {
-                    med2 = nums1[index1];
-                    index1++;
-                }
-                else if (nums1[index1] < nums2[index2])
-                {
-                    med2 = nums1[index1];
-                    index1++;
-                }
+                if (nums1[m] < nums2[n])
+                    newArray[i++] = nums1[m++];
                 else
-                {
-                    med2 = nums2[index2];
-                    index2++;
-                }
+                    newArray[i++] = nums2[n++];
             }
 
-            // the median is the average of two numbers
-            if ((nums1.Length + nums2.Length) % 2 == 0)
-                return (float)(med1 + med2) / 2;
+            while (m < nums1.Length)
+            {
+                newArray[i] = nums1[m];
+                m++;
+                i++;
+            }
 
-            return med2;
+            while (n < nums2.Length)
+            {
+                newArray[i] = nums2[n];
+                n++;
+                i++;
+            }
+
+            int newArrayCount = newArray.Length;
+            if (newArrayCount % 2 != 0)
+                return newArray[(newArrayCount / 2)];
+            else
+                return (newArray[newArrayCount / 2 - 1] + newArray[newArrayCount / 2]) / 2.0;
         }
     }
 }
